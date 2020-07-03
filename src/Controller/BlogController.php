@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -59,6 +60,9 @@ class BlogController extends AbstractController
                              'placeholder' => "Image de l'article"
 
                          ]
+                     ])
+                     ->add('save', SubmitType::class, [
+                         'label' => 'Enregistrer'
                      ])
                      ->getForm();
 
