@@ -4,11 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
-use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Doctrine\common\Persistence\ObjectManager;
 use Symfony\component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -42,7 +39,7 @@ class BlogController extends AbstractController
      */
     public function create(){
 
-        $article = new Article();
+            $article = new Article();
 
         $form = $this->createFormBuilder($article)
                      ->add('title')
