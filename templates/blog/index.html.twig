@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BlogController!{% endblock %}
+
+{% block body %}
+<section class="articles">
+    <article>
+        <h2>Titre de l'article</h2>
+        <div class="metadata"> Ecrit le 03/07/2020 à 10:00
+            dans la catégorie culture</div>
+        <div class="content">
+            <img src="http://placehold.it/350x150" alt="">
+            <p> texte de description</p>
+            <a href="{{ path('blog_show') }}" class="btn btn-primary">Lire la suite</a>
+        </div>
+    </article>
+    <article>
+        <h2>Titre de l'article</h2>
+        <div class="metadata"> Ecrit le 03/07/2020 à 10:00
+            dans la catégorie histoire</div>
+        <div class="content">
+            <img src="http://placehold.it/350x150" alt="">
+            <p> texte de description</p>
+            <a href="{{ path('blog_show') }}" class="btn btn-primary">Lire la suite</a>
+        </div>
+    </article>
+    <article>
+        <h2>Titre de l'article</h2>
+        <div class="metadata"> Ecrit le 03/07/2020 à 10:00
+            dans la catégorie art</div>
+        <div class="content">
+            <img src="http://placehold.it/350x150" alt="">
+            <p> texte de description</p>
+            <a href="{{ path('blog_show') }}" class="btn btn-primary">Lire la suite</a>
+        </div>
+    </article>
+    <article>
+        <h2>Titre de l'article</h2>
+        <div class="metadata"> Ecrit le 03/07/2020 à 10:00
+            dans la catégorie politique</div>
+        <div class="content">
+            <img src="http://placehold.it/350x150" alt="">
+            <p> texte de description</p>
+            <a href="{{ path('blog_show') }}" class="btn btn-primary">Lire la suite</a>
+        </div>
+    </article>
+</section>
+{% endblock %}
