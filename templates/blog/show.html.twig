@@ -1,17 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    </article>
     <article>
-        <h2>Titre de l'article</h2>
-        <div class="metadata"> Ecrit le 03/07/2020 à 10:00
+        <h2>{{ article.title }}</h2>
+        <div class="metadata"> Ecrit le {{ article.createdAt |
+            date ('d/m/Y')}} à {{ article.createdAt | date('H:i') }}
             dans la catégorie culture</div>
         <div class="content">
-            <img src="http://placehold.it/350x150" alt="">
-            <p> texte de description</p>
-            <hr>
-            <p> description de l'article</p>
-
+            <img src="{{ article.image }}" alt="">
+            {{ article.content | raw }}
         </div>
     </article>
 {% endblock %}

@@ -14,7 +14,7 @@ class ArticleFixtures extends Fixture
         for ($i = 1; $i <= 10; $i ++){
             $article = new Article();
             $article->setTitle("Titre de l'article n°$i")
-                ->setContent("Contenu de l'article n°$i")
+                ->setContent("<p>Contenu de l'article n°$i</p>")
                 ->setImage("http://placehold.it/350x150")
                 ->setCreatedAt(new \DateTime());
 
