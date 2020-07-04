@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,7 +28,7 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @route ("/", name="home")
+     * @Route ("/", name="home")
      */
     public function home() {
         return $this->render('blog/home.html.twig', [
@@ -36,10 +38,10 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @route ("/blog/new",methods="GET|POST", name="blog_create")
+     * @Route ("/blog/new",methods={"GET", "POST"}, name="blog_create")
      */
 
-    public function create(){
+    public function create(EntityManagerInterface $manager): Response {
 
         $article = new Article();
 
@@ -53,28 +55,25 @@ class BlogController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if($form->isSubmitted() && $form->isValid()) {
             $article->setCreatedAt(new \DateTime());
 
-            if (!empty($manager)) {
-                $manager->persist($article);
-                $manager->flush();
+            $manager->persist($article);
+            $manager->flush();
 
-                return $this->redirectToRoute('blog_show',
-                    ['id'=> $article->getId
-                    ()]);
-            }
-
+            return $this->redirectToRoute('blog_show',
+                ['id'=> $article->getId
+                ()]);
 
         }
-
-            return $this->render('blog/create.html.twig', [
+        return $this->render('blog/create.html.twig', [
             'formArticle' => $form->createView()]);
+
     }
 
 
     /**
-     * @route("/blog/{id}", methods="GET|POST", name="blog_show")
+     * @Route("/blog/{id}", methods={"GET", "POST"}, name="blog_show")
      */
     public function  show(Article $article) {
 
