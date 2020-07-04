@@ -4,9 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
-use Doctrine\common\Persistence\ObjectManager;
 use Symfony\component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 
 class BlogController extends AbstractController
@@ -37,9 +38,15 @@ class BlogController extends AbstractController
     /**
      * @route ("/blog/new", name="blog_create")
      */
+
     public function create(){
 
-            $article = new Article();
+        $article = new Article();
+        $article->setTitle("titre de l'article")
+                ->setContent("Le contenu de l'article");
+
+
+        $request = Request::createFromGlobals();
 
         $form = $this->createFormBuilder($article)
                      ->add('title')
@@ -47,14 +54,30 @@ class BlogController extends AbstractController
                      ->add('image')
                      ->getForm();
 
-        return $this->render('blog/create.html.twig', [
-            'formArticle' => $form->createView()
-        ]);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $article->setCreatedAt(new \DateTime());
+
+            if (!empty($manager)) {
+                $manager->persist($article);
+                $manager->flush();
+
+                return $this->redirectToRoute('blog_show',
+                    ['id'=> $article->getId
+                    ()]);
+            }
+
+
+        }
+
+            return $this->render('blog/create.html.twig', [
+            'formArticle' => $form->createView()]);
     }
 
 
     /**
-     * @route("/blog/{id}", name="blog_show")
+     * @route("/blog/{id}", methods="GET|POST", name="blog_show")
      */
     public function  show(Article $article) {
 
