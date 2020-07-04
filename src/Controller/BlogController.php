@@ -36,15 +36,12 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @route ("/blog/new", name="blog_create")
+     * @route ("/blog/new",methods="GET|POST", name="blog_create")
      */
 
     public function create(){
 
         $article = new Article();
-        $article->setTitle("titre de l'article")
-                ->setContent("Le contenu de l'article");
-
 
         $request = Request::createFromGlobals();
 
