@@ -4,7 +4,7 @@ index:
 
 blog_create:
      path: /blog/new
-     controller: App\Controller\BlogController::create
+     controller: App\Controller\BlogController::form
 
 blog_show:
      path: /blog/{id}
