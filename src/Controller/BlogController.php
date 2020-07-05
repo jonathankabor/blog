@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -39,24 +40,28 @@ class BlogController extends AbstractController
 
     /**
      * @Route ("/blog/new",methods={"GET", "POST"}, name="blog_create")
+     * @Route ("/blog/{id}/edit", name="blog_edit")
+     * @param EntityManagerInterface $manager
+     * @param $article
+     * @return Response
      */
 
-    public function create(EntityManagerInterface $manager): Response {
+    public function form(EntityManagerInterface $manager, Article $article = null): Response {
 
+        if(!$article){
         $article = new Article();
+        }
 
         $request = Request::createFromGlobals();
 
-        $form = $this->createFormBuilder($article)
-                     ->add('title')
-                     ->add('content')
-                     ->add('image')
-                     ->getForm();
-
+        $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+            if(!$article->getId()){
             $article->setCreatedAt(new \DateTime());
+            }
+
 
             $manager->persist($article);
             $manager->flush();
@@ -67,7 +72,8 @@ class BlogController extends AbstractController
 
         }
         return $this->render('blog/create.html.twig', [
-            'formArticle' => $form->createView()]);
+            'formArticle' => $form->createView(),
+            'editMode' => $article->getId() !== null]);
 
     }
 
