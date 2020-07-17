@@ -82,11 +82,27 @@ class BlogController extends AbstractController
 
     /**
      * @Route("/blog/{id}", methods={"GET", "POST"}, name="blog_show")
+     *
      */
-    public function  show(Article $article) {
+    public function  show(Article $article,  EntityManagerInterface $manager):Response {
 
         $comment = new Comment();
         $form= $this->createForm(CommentType::class, $comment);
+
+
+        $request = Request::createFromGlobals();
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $comment->setCreatedAt(new \DateTime())
+                    ->setArticle($article);
+
+
+            $manager->persist($comment);
+            $manager->flush();
+
+            return $this->redirectToRoute('blog_show', ['id' => $article->getId()]);
+        }
 
         return $this->render('blog/show.html.twig', [
             'article' => $article,
