@@ -1,3 +1,12 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+index:
+     path: /
+     controller: App\Controller\DefaultController::index
+
+blog_create:
+     path: /blog/new
+     controller: App\Controller\BlogController::form
+
+blog_show:
+     path: /blog/{id}
+     controller: App\Controller\BlogController::show
+
